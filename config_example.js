@@ -3,5 +3,7 @@ module.exports = {
     endpoint: '',
     contract: '',
     auth_user: '',
-    auth_perm: ''
+    auth_perm: '',
+    bot_apikey: '',
+    bot_apiurl: ''
 }

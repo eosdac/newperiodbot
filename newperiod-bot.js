@@ -27,9 +27,14 @@ const do_newperiod = async () => {
         const res = await api.transact({actions:[action]}, {blocksBehind: 3, expireSeconds: 30});
 
         console.log(res);
+
+        // newperiod succeeded, send message to telegram bot
+        if (config.bot_apiurl && config.bot_apikey){
+            fetch(`${config.bot_apiurl}/newperiod/${config.bot_apikey}`);
+        }
     }
     catch (e){
-        if (e.json.error.details[0].message.indexOf('NEWPERIOD_EARLY') === -1){
+        if (typeof e.json.error.details[0].message === 'string' && e.json.error.details[0].message.indexOf('NEWPERIOD_EARLY') === -1){
             console.error(e.json.error);
         }
     }
