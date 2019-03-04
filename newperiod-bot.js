@@ -29,7 +29,9 @@ const do_newperiod = async () => {
         console.log(res);
     }
     catch (e){
-        console.log(e.json.error);
+        if (e.json.error.details[0].message.indexOf('NEWPERIOD_EARLY') === -1){
+            console.error(e.json.error);
+        }
     }
 };
 
