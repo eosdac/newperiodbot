@@ -30,7 +30,7 @@ const do_newperiod = async () => {
 
         // newperiod succeeded, send message to telegram bot
         if (config.bot_apiurl && config.bot_apikey){
-            fetch(`${config.bot_apiurl}/newperiod/${config.bot_apikey}`);
+            setTimeout(()=>{fetch(`${config.bot_apiurl}/newperiod/${config.bot_apikey}`)}, 6000 );
         }
     }
     catch (e){
