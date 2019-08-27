@@ -22,21 +22,37 @@ const action = {
     data: {message:'Automated newperiod', dac_id:config.dac_id}
 };
 
+let notify_bot = false;
+const do_notify_bot = async () => {
+    try {
+        fetch(`${config.bot_apiurl}/newperiod/${config.bot_apikey}`);
+
+        notify_bot = false;
+    }
+    catch (e){
+        console.error(`Failed to notify bot ${e.message}`);
+    }
+};
+
 const do_newperiod = async () => {
     try {
         const res = await api.transact({actions:[action]}, {blocksBehind: 3, expireSeconds: 30});
 
         console.log(res);
 
-        // newperiod succeeded, send message to telegram bot
+        // newperiod succeeded, send message to discord bot
         if (config.bot_apiurl && config.bot_apikey){
-            setTimeout(()=>{fetch(`${config.bot_apiurl}/newperiod/${config.bot_apikey}`)}, 6000 );
+            notify_bot = true;
         }
     }
     catch (e){
         if (typeof e.json.error.details[0].message === 'string' && e.json.error.details[0].message.indexOf('NEWPERIOD_EARLY') === -1){
             console.error(e.json.error);
         }
+    }
+
+    if (notify_bot){
+        setTimeout(do_notify_bot, 6000 );
     }
 };
 
