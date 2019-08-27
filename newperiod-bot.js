@@ -17,9 +17,9 @@ const auth_perm = config.auth_perm;
 
 const action = {
     account: cust_contract,
-    name: 'newperiod',
+    name: 'newperiode',
     authorization: [{actor: auth_user, permission: auth_perm}],
-    data: {'message':'Automated newperiod'}
+    data: {message:'Automated newperiod', dac_id:config.dac_id}
 };
 
 const do_newperiod = async () => {
